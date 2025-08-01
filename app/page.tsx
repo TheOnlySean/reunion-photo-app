@@ -281,6 +281,9 @@ export default function Home() {
 
         {/* iPad端竖向布局 - 一屏显示完整优化 */}
         <div className="relative z-20 h-screen hidden md:flex md:flex-col lg:hidden md:items-center md:justify-center md:p-4">
+          {/* 顶部间距 - 为设备信息预留空间 */}
+          <div className="h-20 flex-shrink-0"></div>
+          
           <div className="flex flex-col items-center justify-center h-full max-w-2xl mx-auto space-y-6">
             {/* 标题区域 - 紧凑 */}
             <div className="text-center animate-fade-in flex-shrink-0">
