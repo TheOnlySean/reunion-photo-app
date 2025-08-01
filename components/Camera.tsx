@@ -27,7 +27,7 @@ export function Camera({ onPhotoCapture, onError }: CameraProps) {
         video: {
           width: { ideal: 1920 },
           height: { ideal: 1080 },
-          facingMode: 'user' // Front camera for selfies
+          facingMode: { ideal: 'user' } // Front camera for selfies
         },
         audio: false
       });
