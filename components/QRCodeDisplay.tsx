@@ -128,16 +128,16 @@ export function QRCodeDisplay({
           <div className="order-1 lg:order-2">
             <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6 lg:p-8 text-center">
               
-              {/* QR Code - 放大尺寸 */}
+              {/* QR Code - 三端响应式尺寸 */}
               <div className="mb-6 md:mb-8">
-                <div className="inline-block p-4 md:p-6 bg-white rounded-xl shadow-inner">
+                <div className="inline-block p-3 md:p-4 lg:p-6 bg-white rounded-xl shadow-inner">
                   <canvas
                     ref={canvasRef}
-                    className={qrCodeGenerated ? 'block w-64 h-64 md:w-80 md:h-80' : 'hidden'}
+                    className={qrCodeGenerated ? 'block w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80' : 'hidden'}
                   />
                   {!qrCodeGenerated && (
-                    <div className="w-64 h-64 md:w-80 md:h-80 bg-gray-100 rounded-lg flex items-center justify-center">
-                      <div className="animate-spin rounded-full h-10 w-10 md:h-16 md:w-16 border-b-2 border-blue-500"></div>
+                    <div className="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 bg-gray-100 rounded-lg flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-8 w-8 md:h-12 md:w-12 lg:h-16 lg:w-16 border-b-2 border-blue-500"></div>
                     </div>
                   )}
                 </div>
