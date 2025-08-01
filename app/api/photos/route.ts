@@ -11,14 +11,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 生成测试分享URL
-    const shareUrl = `${process.env.VERCEL_URL || 'http://localhost:3000'}/photo/${sessionId}`;
+    // 直接使用Firebase照片URL作为分享链接，扫码即可下载
+    const shareUrl = selectedPhotoUrl;
 
     return NextResponse.json({
       success: true,
       shareUrl,
       selectedPhotoUrl,
-      message: 'テスト: 写真が選択され、QRコードが生成されました'
+      message: 'QRコードが生成されました - 直接Firebase URLを使用'
     });
   } catch (error) {
     console.error('Error selecting photo:', error);

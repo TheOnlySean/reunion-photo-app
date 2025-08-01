@@ -74,26 +74,25 @@ export function QRCodeDisplay({
   };
 
   return (
-    <div className="w-full h-full bg-gradient-to-br from-blue-50 to-purple-50 p-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="w-full min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4 md:p-6">
+      <div className="max-w-6xl mx-auto">
         
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h2 className="text-4xl font-bold text-gray-800 mb-3">
+        {/* Header - 紧凑设计 */}
+        <div className="text-center mb-6 md:mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
             🎉 写真が完成しました！
           </h2>
-          <p className="text-xl text-gray-600">
-            QRコードをシェアして<br/>
-            みんなで素敵な思い出を共有しましょう
+          <p className="text-lg md:text-xl text-gray-600">
+            QRコードをスキャンして写真を保存
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-start">
           
           {/* Selected Photo Preview */}
           <div className="order-2 lg:order-1">
-            <div className="bg-white rounded-2xl shadow-xl p-6">
-              <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+            <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6">
+              <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-3 md:mb-4 text-center">
                 選択した写真
               </h3>
               <div className="aspect-[4/3] rounded-lg overflow-hidden bg-gray-100">
@@ -101,106 +100,79 @@ export function QRCodeDisplay({
                   src={selectedPhotoUrl}
                   alt="選択した写真"
                   className="w-full h-full object-cover"
+                  crossOrigin="anonymous"
+                  referrerPolicy="no-referrer"
                 />
               </div>
               
               {/* Download Stats */}
-              <div className="flex items-center justify-center mt-4 text-gray-600">
-                <Users className="w-5 h-5 mr-2" />
-                <span className="text-lg">{downloadCount} 人が写真を取得しました</span>
+              <div className="flex items-center justify-center mt-3 md:mt-4 text-gray-600">
+                <Users className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                <span className="text-sm md:text-base">{downloadCount} 人が写真を取得しました</span>
               </div>
             </div>
           </div>
 
           {/* QR Code Section */}
           <div className="order-1 lg:order-2">
-            <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
+            <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6 text-center">
               
               {/* QR Code */}
-              <div className="mb-6">
-                <div className="inline-block p-4 bg-white rounded-xl shadow-inner">
+              <div className="mb-4 md:mb-6">
+                <div className="inline-block p-3 md:p-4 bg-white rounded-xl shadow-inner">
                   <canvas
                     ref={canvasRef}
-                    className={qrCodeGenerated ? 'block' : 'hidden'}
+                    className={qrCodeGenerated ? 'block w-48 h-48 md:w-60 md:h-60' : 'hidden'}
                   />
                   {!qrCodeGenerated && (
-                    <div className="w-72 h-72 bg-gray-100 rounded-lg flex items-center justify-center">
-                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+                    <div className="w-48 h-48 md:w-60 md:h-60 bg-gray-100 rounded-lg flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-8 w-8 md:h-12 md:w-12 border-b-2 border-blue-500"></div>
                     </div>
                   )}
                 </div>
               </div>
 
-              {/* Instructions */}
-              <div className="mb-6">
-                <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                  📱 QRコードで写真を取得
+              {/* Instructions - 简化版 */}
+              <div className="mb-4 md:mb-6">
+                <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-3 md:mb-4">
+                  📱 スキャンして写真を保存
                 </h3>
                 
-                <div className="space-y-3 text-left">
-                  <div className="flex items-start space-x-3 p-4 bg-green-50 rounded-lg">
-                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-white text-sm font-bold">✓</span>
+                <div className="space-y-2 md:space-y-3 text-left">
+                  <div className="flex items-start space-x-2 md:space-x-3 p-3 bg-green-50 rounded-lg">
+                    <div className="w-5 h-5 md:w-6 md:h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-white text-xs md:text-sm font-bold">✓</span>
                     </div>
                     <div>
-                      <p className="font-semibold text-green-800 text-lg">Android端末</p>
-                      <p className="text-green-700">QRコード読み取り後、自動でダウンロードします</p>
+                      <p className="font-semibold text-green-800 text-sm md:text-base">Android端末</p>
+                      <p className="text-green-700 text-xs md:text-sm">スキャン後、直接保存可能</p>
                     </div>
                   </div>
                   
-                  <div className="flex items-start space-x-3 p-4 bg-blue-50 rounded-lg">
-                    <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-white text-sm font-bold">i</span>
+                  <div className="flex items-start space-x-2 md:space-x-3 p-3 bg-blue-50 rounded-lg">
+                    <div className="w-5 h-5 md:w-6 md:h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-white text-xs md:text-sm font-bold">i</span>
                     </div>
                     <div>
-                      <p className="font-semibold text-blue-800 text-lg">iPhone端末</p>
-                      <p className="text-blue-700">QRコード読み取り後、写真を長押しして保存するか、共有機能をご利用ください</p>
+                      <p className="font-semibold text-blue-800 text-sm md:text-base">iPhone端末</p>
+                      <p className="text-blue-700 text-xs md:text-sm">長押しして「写真に追加」を選択</p>
                     </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Share Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button
-                  onClick={shareViaWebAPI}
-                  className="flex items-center justify-center space-x-2 px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold text-lg transition-colors duration-200"
-                >
-                  <Share2 className="w-6 h-6" />
-                  <span>リンクを共有</span>
-                </button>
-                
-                <button
-                  onClick={copyShareUrl}
-                  className="flex items-center justify-center space-x-2 px-8 py-4 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-semibold text-lg transition-colors duration-200"
-                >
-                  <Download className="w-6 h-6" />
-                  <span>リンクをコピー</span>
-                </button>
               </div>
             </div>
           </div>
         </div>
 
         {/* Bottom Actions */}
-        <div className="mt-8 flex justify-center">
+        <div className="mt-6 md:mt-8 flex justify-center">
           <button
             onClick={onStartOver}
-            className="flex items-center space-x-2 px-8 py-4 bg-purple-500 hover:bg-purple-600 text-white rounded-lg font-semibold text-lg transition-colors duration-200"
+            className="flex items-center space-x-2 px-6 md:px-8 py-3 md:py-4 bg-purple-500 hover:bg-purple-600 text-white rounded-lg font-semibold text-base md:text-lg transition-colors duration-200"
           >
-            <RotateCcw className="w-6 h-6" />
+            <RotateCcw className="w-5 h-5 md:w-6 md:h-6" />
             <span>新しい写真を撮影</span>
           </button>
-        </div>
-
-        {/* Share URL Display */}
-        <div className="mt-6 text-center">
-          <div className="bg-gray-100 rounded-lg p-4 inline-block max-w-full">
-            <p className="text-gray-600 mb-2">共有リンク:</p>
-            <code className="text-sm text-gray-800 break-all">
-              {shareUrl}
-            </code>
-          </div>
         </div>
       </div>
     </div>
