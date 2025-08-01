@@ -171,17 +171,8 @@ export function MobileDownloadPage({ photoUrl, sessionInfo }: MobileDownloadPage
           </div>
         )}
 
-        {/* Stats */}
-        {sessionInfo && (
-          <div className="text-center mt-8">
-            <p className="text-white/60 text-sm">
-              {sessionInfo.download_count} 人がこの写真を取得しました
-            </p>
-          </div>
-        )}
-
-        {/* Footer */}
-        <div className="mt-12 text-center">
+        {/* Footer - 移上来更紧凑 */}
+        <div className="mt-8 text-center">
           <div className="inline-flex items-center justify-center space-x-2 text-white/60">
             <Heart className="w-4 h-4" />
             <span className="text-sm">素敵なパーティーにご参加いただき、ありがとうございました</span>

@@ -304,7 +304,7 @@ export function Camera({ onPhotoCapture, onError, onBack }: CameraProps) {
       await new Promise(resolve => setTimeout(resolve, 1000));
     }
 
-    // Capture 3 photos with 1 second delays (like photo booth)
+    // 参考大头贴流程：给用户充足时间调整pose
     const photos: { dataUrl: string; blob: Blob }[] = [];
     
     for (let i = 0; i < 3; i++) {
@@ -316,10 +316,18 @@ export function Camera({ onPhotoCapture, onError, onBack }: CameraProps) {
         photos.push(photo);
         setCapturedPhotos(prev => [...prev, photo]);
         
-        // 1 second delay between captures for user to adjust pose
+        // 给用户足够时间调整pose (参考大头贴体验)
         if (i < 2) {
-          setCountdown(-2); // Special state for "次の写真まで"
-          await new Promise(resolve => setTimeout(resolve, 1000));
+          // 第一张拍完后，给2.5秒调整pose
+          if (i === 0) {
+            setCountdown(-3); // "素晴らしい！次のポーズを決めてください"
+            await new Promise(resolve => setTimeout(resolve, 2500));
+          }
+          // 第二张拍完后，给2秒最后调整
+          if (i === 1) {
+            setCountdown(-4); // "最後の一枚です！最高の笑顔を！"
+            await new Promise(resolve => setTimeout(resolve, 2000));
+          }
         }
       } catch (error) {
         console.error('Error capturing photo:', error);
@@ -418,17 +426,44 @@ export function Camera({ onPhotoCapture, onError, onBack }: CameraProps) {
           </div>
         )}
 
-        {/* 次の撮影まで */}
-        {countdown === -2 && (
+        {/* 第一张拍完 - 调整pose */}
+        {countdown === -3 && (
           <div className="absolute inset-0 flex items-center justify-center z-20">
             <div className="bg-blue-500/80 backdrop-blur-sm rounded-2xl p-8">
               <div className="flex flex-col items-center space-y-4">
-                <div className="text-4xl">✨</div>
+                <div className="text-4xl animate-bounce">🎉</div>
                 <span className="text-white text-xl font-bold">
-                  素敵です！
+                  素晴らしい！
                 </span>
                 <span className="text-white text-lg">
                   次のポーズを決めてください
+                </span>
+                <div className="flex space-x-2">
+                  {[0, 1, 2].map((i) => (
+                    <div
+                      key={i}
+                      className={`w-4 h-4 rounded-full ${
+                        i < capturedPhotos.length ? 'bg-green-400' : 'bg-gray-400'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 第二张拍完 - 最后准备 */}
+        {countdown === -4 && (
+          <div className="absolute inset-0 flex items-center justify-center z-20">
+            <div className="bg-purple-500/80 backdrop-blur-sm rounded-2xl p-8">
+              <div className="flex flex-col items-center space-y-4">
+                <div className="text-4xl animate-pulse">⭐</div>
+                <span className="text-white text-xl font-bold">
+                  最後の一枚です！
+                </span>
+                <span className="text-white text-lg">
+                  最高の笑顔をお願いします
                 </span>
                 <div className="flex space-x-2">
                   {[0, 1, 2].map((i) => (
