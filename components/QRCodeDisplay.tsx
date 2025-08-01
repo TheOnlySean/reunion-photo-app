@@ -32,7 +32,7 @@ export function QRCodeDisplay({
 
     try {
       await QRCode.toCanvas(canvasRef.current, shareUrl, {
-        width: 300,
+        width: 400, // 增大QR码分辨率
         margin: 2,
         color: {
           dark: '#1f2937',
@@ -126,50 +126,32 @@ export function QRCodeDisplay({
 
           {/* QR Code Section */}
           <div className="order-1 lg:order-2">
-            <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6 text-center">
+            <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 text-center">
               
-              {/* QR Code */}
-              <div className="mb-4 md:mb-6">
-                <div className="inline-block p-3 md:p-4 bg-white rounded-xl shadow-inner">
+              {/* QR Code - 放大尺寸 */}
+              <div className="mb-6 md:mb-8">
+                <div className="inline-block p-4 md:p-6 bg-white rounded-xl shadow-inner">
                   <canvas
                     ref={canvasRef}
-                    className={qrCodeGenerated ? 'block w-48 h-48 md:w-60 md:h-60' : 'hidden'}
+                    className={qrCodeGenerated ? 'block w-64 h-64 md:w-80 md:h-80' : 'hidden'}
                   />
                   {!qrCodeGenerated && (
-                    <div className="w-48 h-48 md:w-60 md:h-60 bg-gray-100 rounded-lg flex items-center justify-center">
-                      <div className="animate-spin rounded-full h-8 w-8 md:h-12 md:w-12 border-b-2 border-blue-500"></div>
+                    <div className="w-64 h-64 md:w-80 md:h-80 bg-gray-100 rounded-lg flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-10 w-10 md:h-16 md:w-16 border-b-2 border-blue-500"></div>
                     </div>
                   )}
                 </div>
               </div>
 
-              {/* Instructions - 简化版 */}
-              <div className="mb-4 md:mb-6">
-                <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-3 md:mb-4">
+              {/* 简化说明 */}
+              <div className="mb-6 md:mb-8">
+                <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-6">
                   📱 スキャンして写真を保存
                 </h3>
-                
-                <div className="space-y-2 md:space-y-3 text-left">
-                  <div className="flex items-start space-x-2 md:space-x-3 p-3 bg-green-50 rounded-lg">
-                    <div className="w-5 h-5 md:w-6 md:h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-white text-xs md:text-sm font-bold">✓</span>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-green-800 text-sm md:text-base">Android端末</p>
-                      <p className="text-green-700 text-xs md:text-sm">スキャン後、直接保存可能</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-2 md:space-x-3 p-3 bg-blue-50 rounded-lg">
-                    <div className="w-5 h-5 md:w-6 md:h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-white text-xs md:text-sm font-bold">i</span>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-blue-800 text-sm md:text-base">iPhone端末</p>
-                      <p className="text-blue-700 text-xs md:text-sm">長押しして「写真に追加」を選択</p>
-                    </div>
-                  </div>
-                </div>
+                <p className="text-gray-600 text-base md:text-lg">
+                  QRコードをスキャンすると<br/>
+                  写真ダウンロード画面が開きます
+                </p>
               </div>
             </div>
           </div>
