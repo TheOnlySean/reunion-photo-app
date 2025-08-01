@@ -338,21 +338,21 @@ export function Camera({ onPhotoCapture, onError, onBack }: CameraProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 flex flex-col">
       {/* ヘッダー */}
-      <div className="safe-top bg-black/30 backdrop-blur-sm">
-        <div className="flex items-center justify-between px-6 py-4">
+      <div className="safe-top bg-black/30 backdrop-blur-sm flex-shrink-0">
+        <div className="flex items-center justify-between px-4 py-3">
           <button
             onClick={onBack}
             className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
           >
-            <X className="w-6 h-6 text-white" />
+            <X className="w-5 h-5 text-white" />
           </button>
-          <h1 className="text-xl font-bold text-white">📸 撮影モード</h1>
-          <div className="w-10"></div> {/* スペーサー */}
+          <h1 className="text-lg font-bold text-white">📸 撮影モード</h1>
+          <div className="w-9"></div> {/* スペーサー */}
         </div>
       </div>
 
-      {/* カメラビュー */}
-      <div className="flex-1 relative overflow-hidden">
+      {/* カメラビュー - 高度を制限して全体表示 */}
+      <div className="relative overflow-hidden h-96 md:h-[500px] flex-shrink-0">
         <video
           ref={videoRef}
           className="w-full h-full object-cover"
@@ -479,17 +479,17 @@ export function Camera({ onPhotoCapture, onError, onBack }: CameraProps) {
         </div>
       </div>
 
-      {/* 下部コントロール */}
-      <div className="bg-black/30 backdrop-blur-sm px-6 py-8">
-        {/* 撮影ボタン */}
-        <div className="flex justify-center mb-4">
+      {/* 下部コントロール - 紧凑布局 */}
+      <div className="bg-black/30 backdrop-blur-sm px-4 py-4 flex-shrink-0">
+        {/* 撮影ボタン - 紧凑设计 */}
+        <div className="flex justify-center mb-3">
           <button
             onClick={startCountdownCapture}
             disabled={!isStreaming || isCapturing}
-            className="group relative w-24 h-24 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 disabled:from-gray-500 disabled:to-gray-600 rounded-full shadow-2xl transform transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed"
+            className="group relative w-20 h-20 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 disabled:from-gray-500 disabled:to-gray-600 rounded-full shadow-2xl transform transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed"
           >
             <div className="absolute inset-2 bg-white rounded-full flex items-center justify-center">
-              <CameraIcon className="w-8 h-8 text-red-500 group-disabled:text-gray-500" />
+              <CameraIcon className="w-6 h-6 text-red-500 group-disabled:text-gray-500" />
             </div>
             {!isCapturing && !countdown && (
               <div className="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
@@ -497,13 +497,13 @@ export function Camera({ onPhotoCapture, onError, onBack }: CameraProps) {
           </button>
         </div>
 
-        {/* 説明テキスト */}
+        {/* 説明テキスト - 紧凑样式 */}
         {!isCapturing && countdown === 0 && isStreaming && (
           <div className="text-center">
-            <p className="text-white text-lg font-medium mb-2">
-              大きなボタンをタップして撮影開始
+            <p className="text-white text-base font-medium mb-1">
+              ボタンをタップして撮影開始
             </p>
-            <p className="text-white/80 text-sm">
+            <p className="text-white/80 text-xs">
               5秒間でポーズを決めてください<br/>
               自動で3枚連続撮影します
             </p>
@@ -512,7 +512,7 @@ export function Camera({ onPhotoCapture, onError, onBack }: CameraProps) {
 
         {countdown > 0 && (
           <div className="text-center">
-            <p className="text-white text-2xl font-bold">
+            <p className="text-white text-lg font-bold">
               ポーズを決めてください！
             </p>
           </div>
@@ -520,7 +520,7 @@ export function Camera({ onPhotoCapture, onError, onBack }: CameraProps) {
 
         {isCapturing && countdown === 0 && (
           <div className="text-center">
-            <p className="text-white text-xl font-bold">
+            <p className="text-white text-lg font-bold">
               素晴らしい笑顔です！
             </p>
           </div>
