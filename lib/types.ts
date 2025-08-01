@@ -34,3 +34,25 @@ export interface UploadResponse {
   sessionId?: string;
   error?: string;
 }
+
+export interface DeviceAuth {
+  id: string;
+  device_id: string;
+  password: string;
+  device_name: string;
+  is_active: boolean;
+  created_at: string;
+  last_login?: string;
+}
+
+export interface LoginRequest {
+  deviceId: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  success: boolean;
+  token?: string;
+  deviceName?: string;
+  error?: string;
+}

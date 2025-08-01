@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import { Camera } from '@/components/Camera';
 import { PhotoPreview } from '@/components/PhotoPreview';
 import { QRCodeDisplay } from '@/components/QRCodeDisplay';
+import { LoginForm } from '@/components/LoginForm';
 
-type AppStep = 'home' | 'camera' | 'preview' | 'qrcode';
+type AppStep = 'login' | 'home' | 'camera' | 'preview' | 'qrcode';
 
 interface CapturedPhoto {
   dataUrl: string;
@@ -13,30 +14,92 @@ interface CapturedPhoto {
 }
 
 export default function Home() {
-  const [currentStep, setCurrentStep] = useState<AppStep>('home');
+  const [currentStep, setCurrentStep] = useState<AppStep>('login');
   const [sessionId, setSessionId] = useState<string>('');
   const [capturedPhotos, setCapturedPhotos] = useState<CapturedPhoto[]>([]);
   const [selectedPhotoUrl, setSelectedPhotoUrl] = useState<string>('');
   const [shareUrl, setShareUrl] = useState<string>('');
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string>('');
+  const [authToken, setAuthToken] = useState<string>('');
+  const [deviceName, setDeviceName] = useState<string>('');
 
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetch('/api/sessions', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sessionName: `パーティー-${new Date().toLocaleDateString('ja-JP')}` }),
-        });
-        const data = await res.json();
-        if (data.success) setSessionId(data.sessionId);
-        else throw new Error(data.error || 'Failed to create session');
-      } catch (err) {
-        console.error(err); setError('初期化に失敗しました。ページを更新してください。');
+    // Check for existing auth token on page load
+    const checkAuth = async () => {
+      const storedToken = localStorage.getItem('auth_token');
+      const storedDeviceName = localStorage.getItem('device_name');
+      
+      if (storedToken && storedDeviceName) {
+        try {
+          const response = await fetch('/api/auth/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: storedToken }),
+          });
+          
+          const result = await response.json();
+          
+          if (result.success) {
+            setAuthToken(storedToken);
+            setDeviceName(storedDeviceName);
+            setCurrentStep('home');
+            
+            // Initialize session after auth success
+            await initializeSession();
+          } else {
+            // Invalid token, clear storage
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('device_name');
+            setCurrentStep('login');
+          }
+        } catch (error) {
+          console.error('Auth verification error:', error);
+          setCurrentStep('login');
+        }
+      } else {
+        setCurrentStep('login');
       }
-    })();
+    };
+
+    checkAuth();
   }, []);
+
+  const initializeSession = async () => {
+    try {
+      const res = await fetch('/api/sessions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionName: `パーティー-${new Date().toLocaleDateString('ja-JP')}` }),
+      });
+      const data = await res.json();
+      if (data.success) setSessionId(data.sessionId);
+      else throw new Error(data.error || 'Failed to create session');
+    } catch (err) {
+      console.error(err); 
+      setError('初期化に失敗しました。ページを更新してください。');
+    }
+  };
+
+  const handleLoginSuccess = (token: string, deviceName: string) => {
+    setAuthToken(token);
+    setDeviceName(deviceName);
+    setCurrentStep('home');
+    initializeSession();
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('device_name');
+    setAuthToken('');
+    setDeviceName('');
+    setCurrentStep('login');
+    setSessionId('');
+    setCapturedPhotos([]);
+    setSelectedPhotoUrl('');
+    setShareUrl('');
+    setError('');
+  };
 
   const handleStartCamera = () => setCurrentStep('camera');
   const handleStartOver = () => { 
@@ -117,6 +180,29 @@ export default function Home() {
   if (currentStep === 'home')
     return (
       <div className="h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 relative overflow-hidden">
+        {/* Logout Button */}
+        {currentStep === 'home' && (
+          <div className="absolute top-4 right-4 z-30">
+            <button
+              onClick={handleLogout}
+              className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2"
+            >
+              <span>🔓</span>
+              <span>ログアウト</span>
+            </button>
+          </div>
+        )}
+
+        {/* Device Info */}
+        {currentStep === 'home' && deviceName && (
+          <div className="absolute top-4 left-4 z-30">
+            <div className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-lg text-sm font-medium">
+              <span className="mr-2">📱</span>
+              {deviceName}
+            </div>
+          </div>
+        )}
+
         <div className="absolute inset-0">
           <div className="absolute top-20 left-10 w-24 h-24 bg-blue-400/20 rounded-full blur-xl animate-pulse"></div>
           <div className="absolute top-40 right-20 w-24 h-24 bg-purple-400/20 rounded-full blur-xl animate-pulse delay-300"></div>
@@ -340,6 +426,11 @@ export default function Home() {
         )}
       </div>
     );
+
+  // Show login form if not authenticated
+  if (currentStep === 'login') {
+    return <LoginForm onLoginSuccess={handleLoginSuccess} />;
+  }
 
   if (currentStep === 'camera')
     return <Camera onPhotoCapture={handlePhotoCapture} onError={handleCameraError} onBack={handleStartOver} />;
