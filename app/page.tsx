@@ -79,7 +79,7 @@ export default function Home() {
     return (
       <div className="h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 relative overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-blue-400/20 rounded-full blur-xl animate-pulse"></div>
+          <div className="absolute top-20 left-10 w-24 h-24 bg-blue-400/20 rounded-full blur-xl animate-pulse"></div>
           <div className="absolute top-40 right-20 w-24 h-24 bg-purple-400/20 rounded-full blur-xl animate-pulse delay-300"></div>
           <div className="absolute bottom-32 left-20 w-40 h-40 bg-pink-400/20 rounded-full blur-xl animate-pulse delay-700"></div>
           <div className="absolute bottom-20 right-10 w-28 h-28 bg-indigo-400/20 rounded-full blur-xl animate-pulse delay-1000"></div>
@@ -91,8 +91,8 @@ export default function Home() {
           <div className="flex flex-col items-center justify-center space-y-8">
             <div className="text-center animate-fade-in">
               <div className="mb-6">
-                <div className="w-32 h-32 mx-auto bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center shadow-2xl animate-bounce-slow">
-                  <span className="text-6xl">📸</span>
+                <div className="w-24 h-24 mx-auto bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center shadow-2xl animate-bounce-slow">
+                  <span className="text-4xl">📸</span>
                 </div>
               </div>
               <h1 className="text-5xl font-bold text-white mb-4 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-transparent">
@@ -113,12 +113,12 @@ export default function Home() {
               <button 
                 onClick={handleStartCamera} 
                 disabled={!sessionId}
-                className="relative w-48 h-48 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:from-gray-500 disabled:to-gray-600 rounded-full shadow-2xl transform transition-all duration-300 hover:scale-110 active:scale-95 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center group"
+                className="relative w-64 h-64 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:from-gray-500 disabled:to-gray-600 rounded-full shadow-2xl transform transition-all duration-300 hover:scale-110 active:scale-95 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center group"
               >
                 <div className="absolute inset-4 bg-white/10 rounded-full animate-ping group-hover:animate-none"></div>
                 <div className="relative flex flex-col items-center text-white">
-                  <span className="text-6xl mb-2 animate-bounce">📸</span>
-                  <span className="text-xl font-bold">撮影開始</span>
+                  <span className="text-7xl mb-3 animate-bounce">📸</span>
+                  <span className="text-2xl font-bold">撮影開始</span>
                 </div>
               </button>
             </div>
@@ -180,12 +180,12 @@ export default function Home() {
             <button 
               onClick={handleStartCamera} 
               disabled={!sessionId}
-              className="relative w-48 h-48 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:from-gray-500 disabled:to-gray-600 rounded-full shadow-2xl transform transition-all duration-300 hover:scale-110 active:scale-95 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center group"
+              className="relative w-64 h-64 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:from-gray-500 disabled:to-gray-600 rounded-full shadow-2xl transform transition-all duration-300 hover:scale-110 active:scale-95 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center group"
             >
               <div className="absolute inset-4 bg-white/10 rounded-full animate-ping group-hover:animate-none"></div>
               <div className="relative flex flex-col items-center text-white">
-                <span className="text-6xl mb-2 animate-bounce">📸</span>
-                <span className="text-xl font-bold">撮影開始</span>
+                <span className="text-7xl mb-3 animate-bounce">📸</span>
+                <span className="text-2xl font-bold">撮影開始</span>
               </div>
             </button>
           </div>
