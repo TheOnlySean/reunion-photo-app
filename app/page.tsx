@@ -49,7 +49,8 @@ export default function Home() {
     if (!sessionId) return;
     try {
       setIsUploading(true);
-      const form = new FormData(); form.append('sessionId', sessionId);
+      const form = new FormData(); 
+      form.append('sessionId', sessionId);
       capturedPhotos.forEach((p, i) => form.append(`photo${i}`, new File([p.blob], `photo${i}.jpg`, { type: 'image/jpeg' })));
       const upRes = await fetch('/api/upload', { method: 'POST', body: form }); 
       const up = await upRes.json();
@@ -76,7 +77,7 @@ export default function Home() {
 
   if (currentStep === 'home')
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 relative overflow-hidden">
+      <div className="h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute top-20 left-10 w-32 h-32 bg-blue-400/20 rounded-full blur-xl animate-pulse"></div>
           <div className="absolute top-40 right-20 w-24 h-24 bg-purple-400/20 rounded-full blur-xl animate-pulse delay-300"></div>
@@ -84,47 +85,117 @@ export default function Home() {
           <div className="absolute bottom-20 right-10 w-28 h-28 bg-indigo-400/20 rounded-full blur-xl animate-pulse delay-1000"></div>
         </div>
 
-        <div className="relative z-10 min-h-screen flex flex-col items-center justify-center p-6">
-          <div className="text-center mb-12 animate-fade-in">
-            <div className="mb-6">
-              <div className="w-32 h-32 mx-auto bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center shadow-2xl animate-bounce-slow">
-                <span className="text-6xl">📸</span>
+        {/* 横版布局（电脑/iPad）- One Page设计 */}
+        <div className="relative z-10 h-full hidden md:grid md:grid-cols-2 md:gap-12 md:p-8 md:items-center md:max-w-6xl md:mx-auto">
+          {/* 左侧：标题和按钮 */}
+          <div className="flex flex-col items-center justify-center space-y-8">
+            <div className="text-center animate-fade-in">
+              <div className="mb-6">
+                <div className="w-32 h-32 mx-auto bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center shadow-2xl animate-bounce-slow">
+                  <span className="text-6xl">📸</span>
+                </div>
+              </div>
+              <h1 className="text-5xl font-bold text-white mb-4 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-transparent">
+                写真撮影
+              </h1>
+              <h2 className="text-3xl font-bold text-white mb-4">
+                みんなで記念撮影
+              </h2>
+              <p className="text-xl text-white/80 leading-relaxed">
+                タップして撮影開始<br/>
+                5秒のカウントダウン後<br/>
+                1秒間隔で3枚撮影します
+              </p>
+            </div>
+            
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-lg opacity-75 animate-pulse"></div>
+              <button 
+                onClick={handleStartCamera} 
+                disabled={!sessionId}
+                className="relative w-48 h-48 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:from-gray-500 disabled:to-gray-600 rounded-full shadow-2xl transform transition-all duration-300 hover:scale-110 active:scale-95 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center group"
+              >
+                <div className="absolute inset-4 bg-white/10 rounded-full animate-ping group-hover:animate-none"></div>
+                <div className="relative flex flex-col items-center text-white">
+                  <span className="text-6xl mb-2 animate-bounce">📸</span>
+                  <span className="text-xl font-bold">撮影開始</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          {/* 右侧：使用说明 */}
+          <div className="flex items-center justify-center">
+            <div className="bg-white/10 backdrop-blur-sm rounded-3xl shadow-xl p-8 w-full max-w-lg animate-slide-up">
+              <h3 className="text-2xl font-bold text-white mb-6 text-center flex items-center justify-center">
+                <span className="mr-3">📋</span>
+                ご利用方法
+              </h3>
+              <div className="space-y-4">
+                {[
+                  { icon: "1️⃣", text: "撮影ボタンをタップ" },
+                  { icon: "2️⃣", text: "5秒間でポーズを決める" },
+                  { icon: "3️⃣", text: "1秒間隔で3枚撮影" },
+                  { icon: "4️⃣", text: "お気に入りの1枚を選択" },
+                  { icon: "5️⃣", text: "QRコードで写真をシェア" }
+                ].map((step, index) => (
+                  <div key={index} className="flex items-center space-x-4 text-white/90 transform transition-all duration-300 hover:scale-105" style={{animationDelay: `${index * 100}ms`}}>
+                    <span className="text-2xl">{step.icon}</span>
+                    <span className="text-lg">{step.text}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-8 text-center">
+                <p className="text-white/60 text-sm">
+                  みんなの笑顔を素敵な思い出に ✨
+                </p>
               </div>
             </div>
-            <h1 className="text-5xl font-bold text-white mb-4 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-transparent">
+          </div>
+        </div>
+
+        {/* 竖版布局（手机）*/}
+        <div className="relative z-10 h-full flex flex-col items-center justify-center p-6 md:hidden">
+          <div className="text-center mb-8 animate-fade-in">
+            <div className="mb-6">
+              <div className="w-24 h-24 mx-auto bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center shadow-2xl animate-bounce-slow">
+                <span className="text-5xl">📸</span>
+              </div>
+            </div>
+            <h1 className="text-4xl font-bold text-white mb-3 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-transparent">
               写真撮影
             </h1>
-            <h2 className="text-3xl font-bold text-white mb-4">
+            <h2 className="text-2xl font-bold text-white mb-3">
               みんなで記念撮影
             </h2>
-            <p className="text-xl text-white/80 leading-relaxed max-w-md mx-auto">
+            <p className="text-lg text-white/80 leading-relaxed">
               タップして撮影開始<br/>
               5秒のカウントダウン後<br/>
               1秒間隔で3枚撮影します
             </p>
           </div>
 
-          <div className="mb-12 relative">
+          <div className="mb-8 relative">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-lg opacity-75 animate-pulse"></div>
             <button 
               onClick={handleStartCamera} 
               disabled={!sessionId}
-              className="relative w-56 h-56 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:from-gray-500 disabled:to-gray-600 rounded-full shadow-2xl transform transition-all duration-300 hover:scale-110 active:scale-95 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center group"
+              className="relative w-48 h-48 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:from-gray-500 disabled:to-gray-600 rounded-full shadow-2xl transform transition-all duration-300 hover:scale-110 active:scale-95 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center group"
             >
               <div className="absolute inset-4 bg-white/10 rounded-full animate-ping group-hover:animate-none"></div>
               <div className="relative flex flex-col items-center text-white">
-                <span className="text-7xl mb-2 animate-bounce">📸</span>
-                <span className="text-2xl font-bold">撮影開始</span>
+                <span className="text-6xl mb-2 animate-bounce">📸</span>
+                <span className="text-xl font-bold">撮影開始</span>
               </div>
             </button>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-sm rounded-3xl shadow-xl p-8 max-w-md w-full animate-slide-up">
-            <h3 className="text-2xl font-bold text-white mb-6 text-center flex items-center justify-center">
-              <span className="mr-3">📋</span>
+          <div className="bg-white/10 backdrop-blur-sm rounded-3xl shadow-xl p-6 max-w-sm w-full animate-slide-up">
+            <h3 className="text-lg font-bold text-white mb-4 text-center flex items-center justify-center">
+              <span className="mr-2">📋</span>
               ご利用方法
             </h3>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {[
                 { icon: "1️⃣", text: "撮影ボタンをタップ" },
                 { icon: "2️⃣", text: "5秒間でポーズを決める" },
@@ -132,18 +203,17 @@ export default function Home() {
                 { icon: "4️⃣", text: "お気に入りの1枚を選択" },
                 { icon: "5️⃣", text: "QRコードで写真をシェア" }
               ].map((step, index) => (
-                <div key={index} className="flex items-center space-x-4 text-white/90 transform transition-all duration-300 hover:scale-105" style={{animationDelay: `${index * 100}ms`}}>
-                  <span className="text-2xl">{step.icon}</span>
-                  <span className="text-lg">{step.text}</span>
+                <div key={index} className="flex items-center space-x-3 text-white/90 transform transition-all duration-300 hover:scale-105" style={{animationDelay: `${index * 100}ms`}}>
+                  <span className="text-lg">{step.icon}</span>
+                  <span className="text-sm">{step.text}</span>
                 </div>
               ))}
             </div>
-          </div>
-
-          <div className="mt-8 text-center">
-            <p className="text-white/60 text-sm">
-              みんなの笑顔を素敵な思い出に ✨
-            </p>
+            <div className="mt-6 text-center">
+              <p className="text-white/60 text-xs">
+                みんなの笑顔を素敵な思い出に ✨
+              </p>
+            </div>
           </div>
         </div>
 
