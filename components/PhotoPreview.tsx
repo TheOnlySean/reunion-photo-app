@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 interface PhotoPreviewProps {
   photos: { dataUrl: string; blob: Blob }[];
-  onPhotoSelect: (selectedIndex: number, photoData: { dataUrl: string; blob: Blob }) => void;
+  onPhotoSelect: (selectedIndex: number) => void;
   onRetake: () => void;
   isUploading?: boolean;
 }
@@ -18,7 +18,12 @@ export function PhotoPreview({ photos, onPhotoSelect, onRetake, isUploading = fa
     if (isUploading) return;
     
     setSelectedIndex(index);
-    onPhotoSelect(index, photos[index]);
+  };
+
+  const handleConfirmSelection = () => {
+    if (selectedIndex !== null && !isUploading) {
+      onPhotoSelect(selectedIndex);
+    }
   };
 
   return (
@@ -97,7 +102,7 @@ export function PhotoPreview({ photos, onPhotoSelect, onRetake, isUploading = fa
 
           {/* Confirm Button */}
           <button
-            onClick={() => selectedIndex !== null && handlePhotoSelect(selectedIndex)}
+            onClick={handleConfirmSelection}
             disabled={selectedIndex === null || isUploading}
             className={cn(
               "flex items-center space-x-2 px-10 py-4 rounded-lg font-semibold text-lg transition-all duration-200",

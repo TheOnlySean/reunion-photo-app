@@ -39,7 +39,21 @@ export default function Home() {
   }, []);
 
   const handleStartCamera = () => setCurrentStep('camera');
-  const handleStartOver = () => { setCurrentStep("home"); setCapturedPhotos([]); setSelectedPhotoUrl(""); setShareUrl(""); setIsUploading(false); setError(""); };
+  const handleStartOver = () => { 
+    console.log('重新开始拍照');
+    setCurrentStep("home"); 
+    setCapturedPhotos([]); 
+    setSelectedPhotoUrl(""); 
+    setShareUrl(""); 
+    setIsUploading(false); 
+    setError(""); 
+  };
+
+  const handleRetake = () => {
+    console.log('返回拍照界面');
+    setCurrentStep('camera');
+    setError(''); // 清除错误信息
+  };
 
   const handlePhotoCapture = (photos: { dataUrl: string; blob: Blob }[]) => {
     setCapturedPhotos(photos); setCurrentStep('preview');
@@ -49,25 +63,50 @@ export default function Home() {
     if (!sessionId) return;
     try {
       setIsUploading(true);
+      setError(''); // 清除之前的错误
+      
+      console.log('开始上传照片...');
       const form = new FormData(); 
       form.append('sessionId', sessionId);
       capturedPhotos.forEach((p, i) => form.append(`photo${i}`, new File([p.blob], `photo${i}.jpg`, { type: 'image/jpeg' })));
+      
       const upRes = await fetch('/api/upload', { method: 'POST', body: form }); 
       const up = await upRes.json();
-      if (!up.success) throw new Error(up.error || 'Upload failed');
+      console.log('上传结果:', up);
+      
+      if (!up.success) {
+        throw new Error(up.error || 'Vercel Blob上传失败。请检查BLOB_READ_WRITE_TOKEN环境变量是否配置正确。');
+      }
+      
       const selectedUrl = up.photos[index];
+      if (!selectedUrl) {
+        throw new Error('选择的照片URL为空');
+      }
+      
+      console.log('生成QR码...');
       const selRes = await fetch('/api/photos', { 
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' }, 
         body: JSON.stringify({ sessionId, selectedPhotoUrl: selectedUrl }) 
       });
       const sel = await selRes.json();
-      if (!sel.success) throw new Error(sel.error || 'Photo select failed');
+      console.log('QR码生成结果:', sel);
+      
+      if (!sel.success) {
+        throw new Error(sel.error || 'QRコード生成に失敗しました');
+      }
+      
       setShareUrl(sel.shareUrl || selectedUrl); 
       setSelectedPhotoUrl(selectedUrl); 
       setCurrentStep('qrcode');
-    } catch (e) { console.error(e); setError('写真の処理に失敗しました'); }
-    finally { setIsUploading(false); }
+      console.log('処理完了！');
+      
+    } catch (e) { 
+      console.error('写真処理エラー:', e); 
+      setError(e instanceof Error ? e.message : '写真の処理に失敗しました'); 
+    } finally { 
+      setIsUploading(false); 
+    }
   };
 
   const handleCameraError = (msg: string) => setError(msg);
@@ -301,7 +340,21 @@ export default function Home() {
     return <Camera onPhotoCapture={handlePhotoCapture} onError={handleCameraError} onBack={handleStartOver} />;
 
   if (currentStep === 'preview')
-    return <PhotoPreview photos={capturedPhotos} onPhotoSelect={handlePhotoSelect} onRetake={() => setCurrentStep('camera')} isUploading={isUploading} />;
+    return (
+      <div>
+        <PhotoPreview photos={capturedPhotos} onPhotoSelect={handlePhotoSelect} onRetake={handleRetake} isUploading={isUploading} />
+        {error && (
+          <div className="fixed top-4 left-4 right-4 bg-red-500 text-white p-4 rounded-lg shadow-lg z-50">
+            <div className="flex items-center justify-between">
+              <span className="text-sm md:text-base">{error}</span>
+              <button onClick={() => setError('')} className="text-white hover:text-gray-200 ml-4 text-xl">
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    );
 
   if (currentStep === 'qrcode')
     return <QRCodeDisplay shareUrl={shareUrl} selectedPhotoUrl={selectedPhotoUrl} onStartOver={handleStartOver} />;
