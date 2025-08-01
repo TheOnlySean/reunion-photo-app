@@ -351,8 +351,8 @@ export function Camera({ onPhotoCapture, onError, onBack }: CameraProps) {
         </div>
       </div>
 
-      {/* カメラビュー - 高度を制限して全体表示 */}
-      <div className="relative overflow-hidden h-96 md:h-[500px] flex-shrink-0">
+      {/* カメラビュー - 扩大预览区域 */}
+      <div className="relative overflow-hidden h-[450px] md:h-[550px] flex-shrink-0">
         <video
           ref={videoRef}
           className="w-full h-full object-cover"
@@ -479,10 +479,10 @@ export function Camera({ onPhotoCapture, onError, onBack }: CameraProps) {
         </div>
       </div>
 
-      {/* 下部コントロール - 紧凑布局 */}
-      <div className="bg-black/30 backdrop-blur-sm px-4 py-4 flex-shrink-0">
-        {/* 撮影ボタン - 紧凑设计 */}
-        <div className="flex justify-center mb-3">
+      {/* 下部コントロール - 极简设计 */}
+      <div className="bg-black/30 backdrop-blur-sm px-4 py-6 flex-shrink-0">
+        {/* 撮影ボタン - 居中显示 */}
+        <div className="flex justify-center">
           <button
             onClick={startCountdownCapture}
             disabled={!isStreaming || isCapturing}
@@ -497,34 +497,7 @@ export function Camera({ onPhotoCapture, onError, onBack }: CameraProps) {
           </button>
         </div>
 
-        {/* 説明テキスト - 紧凑样式 */}
-        {!isCapturing && countdown === 0 && isStreaming && (
-          <div className="text-center">
-            <p className="text-white text-base font-medium mb-1">
-              ボタンをタップして撮影開始
-            </p>
-            <p className="text-white/80 text-xs">
-              5秒間でポーズを決めてください<br/>
-              自動で3枚連続撮影します
-            </p>
-          </div>
-        )}
 
-        {countdown > 0 && (
-          <div className="text-center">
-            <p className="text-white text-lg font-bold">
-              ポーズを決めてください！
-            </p>
-          </div>
-        )}
-
-        {isCapturing && countdown === 0 && (
-          <div className="text-center">
-            <p className="text-white text-lg font-bold">
-              素晴らしい笑顔です！
-            </p>
-          </div>
-        )}
       </div>
     </div>
   );
