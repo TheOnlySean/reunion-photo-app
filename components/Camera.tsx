@@ -58,9 +58,10 @@ export function Camera({ onPhotoCapture, onError, onBack }: CameraProps) {
 
       // 设备检查
       console.log('📹 可用設備を確認中...');
+      let videoDevices = [];
       try {
         const devices = await navigator.mediaDevices.enumerateDevices();
-        const videoDevices = devices.filter(device => device.kind === 'videoinput');
+        videoDevices = devices.filter(device => device.kind === 'videoinput');
         console.log(`📹 発見された映像デバイス: ${videoDevices.length}個`);
         
         videoDevices.forEach((device, index) => {
