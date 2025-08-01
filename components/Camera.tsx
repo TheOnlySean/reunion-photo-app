@@ -151,7 +151,7 @@ export function Camera({ onPhotoCapture, onError, onBack }: CameraProps) {
             audio: false
           }
         }
-      ];
+      );
 
       let stream = null;
       let lastError = null;
