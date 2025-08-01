@@ -398,13 +398,45 @@ export function Camera({ onPhotoCapture, onError, onBack }: CameraProps) {
           )}
         </div>
 
-        {/* カウントダウン表示 */}
+        {/* カウントダウン表示 - 大头贴风格指导 */}
         {countdown > 0 && (
           <div className="absolute inset-0 flex items-center justify-center z-20">
-            <div className="bg-gradient-to-r from-blue-500/90 to-purple-600/90 backdrop-blur-sm rounded-full w-48 h-48 flex items-center justify-center shadow-2xl">
-              <span className="text-8xl font-bold text-white animate-bounce">
-                {countdown}
-              </span>
+            <div className="bg-gradient-to-r from-blue-500/90 to-purple-600/90 backdrop-blur-sm rounded-3xl p-8 shadow-2xl">
+              <div className="flex flex-col items-center space-y-4">
+                <span className="text-8xl font-bold text-white animate-bounce">
+                  {countdown}
+                </span>
+                {countdown === 5 && (
+                  <div className="text-center">
+                    <p className="text-white text-xl font-bold">📸 準備してください！</p>
+                    <p className="text-white text-lg">ベストポーズで決めよう</p>
+                  </div>
+                )}
+                {countdown === 4 && (
+                  <div className="text-center">
+                    <p className="text-white text-xl font-bold">😊 笑顔の準備</p>
+                    <p className="text-white text-lg">みんな一緒にポーズ！</p>
+                  </div>
+                )}
+                {countdown === 3 && (
+                  <div className="text-center">
+                    <p className="text-white text-xl font-bold">✨ いい感じ！</p>
+                    <p className="text-white text-lg">カメラを見て〜</p>
+                  </div>
+                )}
+                {countdown === 2 && (
+                  <div className="text-center">
+                    <p className="text-white text-xl font-bold">📷 もうすぐ撮影</p>
+                    <p className="text-white text-lg">ポーズキープ！</p>
+                  </div>
+                )}
+                {countdown === 1 && (
+                  <div className="text-center animate-pulse">
+                    <p className="text-white text-xl font-bold">🎬 今撮ります！</p>
+                    <p className="text-white text-lg">最高の笑顔で〜</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
@@ -412,14 +444,17 @@ export function Camera({ onPhotoCapture, onError, onBack }: CameraProps) {
         {/* 撮影中表示 */}
         {countdown === -1 && (
           <div className="absolute inset-0 flex items-center justify-center z-20">
-            <div className="bg-green-500/80 backdrop-blur-sm rounded-2xl p-8 animate-pulse">
+            <div className="bg-green-500/90 backdrop-blur-sm rounded-3xl p-8 animate-pulse">
               <div className="flex flex-col items-center space-y-4">
                 <div className="text-6xl animate-ping">📸</div>
                 <span className="text-white text-2xl font-bold">
-                  撮影中...
+                  🎉 撮影完了！
                 </span>
-                <span className="text-white text-lg">
-                  {capturedPhotos.length + 1}/3枚目
+                <span className="text-white text-xl">
+                  {capturedPhotos.length + 1}枚目 / 3枚撮影
+                </span>
+                <span className="text-white text-lg animate-bounce">
+                  素晴らしいポーズでした！
                 </span>
               </div>
             </div>
@@ -429,24 +464,30 @@ export function Camera({ onPhotoCapture, onError, onBack }: CameraProps) {
         {/* 第一张拍完 - 调整pose */}
         {countdown === -3 && (
           <div className="absolute inset-0 flex items-center justify-center z-20">
-            <div className="bg-blue-500/80 backdrop-blur-sm rounded-2xl p-8">
+            <div className="bg-gradient-to-r from-pink-500/90 to-orange-500/90 backdrop-blur-sm rounded-3xl p-8">
               <div className="flex flex-col items-center space-y-4">
-                <div className="text-4xl animate-bounce">🎉</div>
-                <span className="text-white text-xl font-bold">
-                  素晴らしい！
+                <div className="text-6xl animate-bounce">🎉</div>
+                <span className="text-white text-2xl font-bold">
+                  わ〜！最高でした！
                 </span>
-                <span className="text-white text-lg">
-                  次のポーズを決めてください
+                <span className="text-white text-xl">
+                  2枚目の準備をしましょう
                 </span>
-                <div className="flex space-x-2">
-                  {[0, 1, 2].map((i) => (
-                    <div
-                      key={i}
-                      className={`w-4 h-4 rounded-full ${
-                        i < capturedPhotos.length ? 'bg-green-400' : 'bg-gray-400'
-                      }`}
-                    />
-                  ))}
+                <span className="text-white text-lg animate-pulse">
+                  違うポーズで決めてみて！
+                </span>
+                <div className="flex items-center space-x-3 mt-2">
+                  <span className="text-white text-sm">撮影進度:</span>
+                  <div className="flex space-x-2">
+                    {[0, 1, 2].map((i) => (
+                      <div
+                        key={i}
+                        className={`w-5 h-5 rounded-full ${
+                          i < capturedPhotos.length ? 'bg-green-400 animate-pulse' : 'bg-gray-400'
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -456,24 +497,31 @@ export function Camera({ onPhotoCapture, onError, onBack }: CameraProps) {
         {/* 第二张拍完 - 最后准备 */}
         {countdown === -4 && (
           <div className="absolute inset-0 flex items-center justify-center z-20">
-            <div className="bg-purple-500/80 backdrop-blur-sm rounded-2xl p-8">
+            <div className="bg-gradient-to-r from-purple-500/90 to-indigo-600/90 backdrop-blur-sm rounded-3xl p-8">
               <div className="flex flex-col items-center space-y-4">
-                <div className="text-4xl animate-pulse">⭐</div>
-                <span className="text-white text-xl font-bold">
-                  最後の一枚です！
+                <div className="text-6xl animate-pulse">🌟</div>
+                <span className="text-white text-2xl font-bold">
+                  すごい！あと1枚！
                 </span>
-                <span className="text-white text-lg">
-                  最高の笑顔をお願いします
+                <span className="text-white text-xl">
+                  ラストショットです！
                 </span>
-                <div className="flex space-x-2">
-                  {[0, 1, 2].map((i) => (
-                    <div
-                      key={i}
-                      className={`w-4 h-4 rounded-full ${
-                        i < capturedPhotos.length ? 'bg-green-400' : 'bg-gray-400'
-                      }`}
-                    />
-                  ))}
+                <span className="text-white text-lg animate-bounce">
+                  みんなで最高の笑顔を〜✨
+                </span>
+                <div className="flex items-center space-x-3 mt-2">
+                  <span className="text-white text-sm">もうすぐ完成:</span>
+                  <div className="flex space-x-2">
+                    {[0, 1, 2].map((i) => (
+                      <div
+                        key={i}
+                        className={`w-5 h-5 rounded-full ${
+                          i < capturedPhotos.length ? 'bg-green-400 animate-pulse' : 
+                          i === 2 ? 'bg-yellow-400 animate-ping' : 'bg-gray-400'
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
