@@ -115,10 +115,10 @@ export function DownloadPage({ photoUrl, sessionInfo }: DownloadPageProps) {
             <Camera className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-4xl font-bold text-white mb-2">
-            🎉 美好时光，永久珍藏
+            🎉 素敵な思い出を永遠に
           </h1>
           <p className="text-white/80 text-lg">
-            {sessionInfo && `来自 ${formatDate(sessionInfo.created_at)} 的聚会回忆`}
+            {sessionInfo && `${formatDate(sessionInfo.created_at)} のパーティーの思い出`}
           </p>
         </div>
 
@@ -136,8 +136,8 @@ export function DownloadPage({ photoUrl, sessionInfo }: DownloadPageProps) {
             
             {/* Photo Info */}
             <div className="mt-4 text-center text-white/80">
-              <p className="text-sm">
-                {sessionInfo && `已有 ${sessionInfo.download_count} 人获取了这张照片`}
+              <p className="text-lg">
+                {sessionInfo && `${sessionInfo.download_count} 人がこの写真を取得しました`}
               </p>
             </div>
           </div>
@@ -162,18 +162,18 @@ export function DownloadPage({ photoUrl, sessionInfo }: DownloadPageProps) {
                     <Download className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <p className="text-white text-lg font-medium mb-2">
-                      照片下载完成！
-                    </p>
-                    <p className="text-white/80 text-sm">
-                      照片已保存到您的下载文件夹
-                    </p>
+                                      <p className="text-white text-xl font-medium mb-2">
+                    写真のダウンロード完了！
+                  </p>
+                  <p className="text-white/80">
+                    写真がダウンロードフォルダに保存されました
+                  </p>
                   </div>
                   <button
                     onClick={handleDownload}
                     className="bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
                   >
-                    重新下载
+                    再ダウンロード
                   </button>
                 </div>
               )}
@@ -189,44 +189,44 @@ export function DownloadPage({ photoUrl, sessionInfo }: DownloadPageProps) {
                 <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-500 rounded-full mb-4">
                   <Share2 className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-white text-lg font-semibold mb-2">
-                  一键保存到相册
+                <h3 className="text-white text-xl font-semibold mb-2">
+                  アルバムに一括保存
                 </h3>
-                <p className="text-white/80 text-sm mb-4">
-                  使用 iOS 分享功能直接保存照片
+                <p className="text-white/80 mb-4">
+                  iOS共有機能を使って写真を直接保存
                 </p>
                 <button
                   onClick={handleIOSShare}
                   className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 w-full"
                 >
-                  保存到相册
+                  アルバムに保存
                 </button>
               </div>
 
               {/* Manual Instructions */}
               {showInstructions && (
                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-                  <h3 className="text-white text-lg font-semibold mb-4 text-center">
-                    📱 手动保存方法
+                  <h3 className="text-white text-xl font-semibold mb-4 text-center">
+                    📱 手動保存方法
                   </h3>
-                  <div className="space-y-3 text-white/90">
+                  <div className="space-y-4 text-white/90">
                     <div className="flex items-start space-x-3">
-                      <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span className="text-xs font-bold">1</span>
+                      <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="text-sm font-bold">1</span>
                       </div>
-                      <p className="text-sm">长按上方照片</p>
+                      <p className="text-lg">上の写真を長押し</p>
                     </div>
                     <div className="flex items-start space-x-3">
-                      <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span className="text-xs font-bold">2</span>
+                      <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="text-sm font-bold">2</span>
                       </div>
-                      <p className="text-sm">选择"存储到照片"或"保存图片"</p>
+                      <p className="text-lg">「写真に追加」または「画像を保存」を選択</p>
                     </div>
                     <div className="flex items-start space-x-3">
-                      <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span className="text-xs font-bold">3</span>
+                      <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="text-sm font-bold">3</span>
                       </div>
-                      <p className="text-sm">照片将保存到您的相册中</p>
+                      <p className="text-lg">写真がアルバムに保存されます</p>
                     </div>
                   </div>
                 </div>
@@ -237,10 +237,10 @@ export function DownloadPage({ photoUrl, sessionInfo }: DownloadPageProps) {
 
         {/* Footer */}
         <div className="mt-12 text-center">
-          <div className="inline-flex items-center justify-center space-x-2 text-white/60 text-sm">
-            <Heart className="w-4 h-4" />
-            <span>感谢您参与这次美好的聚会</span>
-            <Heart className="w-4 h-4" />
+          <div className="inline-flex items-center justify-center space-x-2 text-white/60">
+            <Heart className="w-5 h-5" />
+            <span className="text-lg">素敵なパーティーにご参加いただき、ありがとうございました</span>
+            <Heart className="w-5 h-5" />
           </div>
         </div>
       </div>

@@ -28,10 +28,11 @@ export function PhotoPreview({ photos, onPhotoSelect, onRetake, isUploading = fa
         {/* Header */}
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-2">
-            选择你最满意的照片 📸
+            お気に入りの写真を選択 📸
           </h2>
-          <p className="text-gray-600">
-            从刚刚拍摄的 3 张照片中选择一张进行分享
+          <p className="text-gray-600 text-lg">
+            撮影した3枚の写真から<br/>
+            シェアしたい1枚をお選びください
           </p>
         </div>
 
@@ -53,7 +54,7 @@ export function PhotoPreview({ photos, onPhotoSelect, onRetake, isUploading = fa
               <div className="aspect-[4/3] rounded-lg overflow-hidden bg-gray-200">
                 <img
                   src={photo.dataUrl}
-                  alt={`照片 ${index + 1}`}
+                  alt={`写真 ${index + 1}`}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -88,10 +89,10 @@ export function PhotoPreview({ photos, onPhotoSelect, onRetake, isUploading = fa
           <button
             onClick={onRetake}
             disabled={isUploading}
-            className="flex items-center space-x-2 px-6 py-3 bg-gray-500 hover:bg-gray-600 disabled:bg-gray-400 text-white rounded-lg font-semibold transition-colors duration-200"
+            className="flex items-center space-x-2 px-8 py-4 bg-gray-500 hover:bg-gray-600 disabled:bg-gray-400 text-white rounded-lg font-semibold text-lg transition-colors duration-200"
           >
-            <RotateCcw className="w-5 h-5" />
-            <span>重新拍摄</span>
+            <RotateCcw className="w-6 h-6" />
+            <span>撮り直し</span>
           </button>
 
           {/* Confirm Button */}
@@ -99,7 +100,7 @@ export function PhotoPreview({ photos, onPhotoSelect, onRetake, isUploading = fa
             onClick={() => selectedIndex !== null && handlePhotoSelect(selectedIndex)}
             disabled={selectedIndex === null || isUploading}
             className={cn(
-              "flex items-center space-x-2 px-8 py-3 rounded-lg font-semibold transition-all duration-200",
+              "flex items-center space-x-2 px-10 py-4 rounded-lg font-semibold text-lg transition-all duration-200",
               selectedIndex !== null && !isUploading
                 ? "bg-blue-500 hover:bg-blue-600 text-white shadow-lg hover:shadow-xl"
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
@@ -107,13 +108,13 @@ export function PhotoPreview({ photos, onPhotoSelect, onRetake, isUploading = fa
           >
             {isUploading ? (
               <>
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                <span>上传中...</span>
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                <span>アップロード中...</span>
               </>
             ) : (
               <>
-                <Check className="w-5 h-5" />
-                <span>确认选择</span>
+                <Check className="w-6 h-6" />
+                <span>この写真に決定</span>
               </>
             )}
           </button>
@@ -122,8 +123,8 @@ export function PhotoPreview({ photos, onPhotoSelect, onRetake, isUploading = fa
         {/* Instructions */}
         <div className="mt-8 text-center">
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 inline-block">
-            <p className="text-blue-800 text-sm">
-              💡 <strong>提示：</strong>点击照片进行选择，选中后点击确认按钮继续
+            <p className="text-blue-800 text-lg">
+              💡 <strong>操作方法：</strong>写真をタップして選択し、「この写真に決定」ボタンを押してください
             </p>
           </div>
         </div>
@@ -131,15 +132,16 @@ export function PhotoPreview({ photos, onPhotoSelect, onRetake, isUploading = fa
         {/* Upload Progress */}
         {isUploading && (
           <div className="mt-6">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
               <div className="flex items-center justify-center space-x-3">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
-                <span className="text-blue-800 font-medium">
-                  正在上传照片并生成分享链接...
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                <span className="text-blue-800 font-medium text-lg">
+                  写真をアップロード中です...<br/>
+                  QRコードを生成しています
                 </span>
               </div>
-              <div className="mt-3 bg-blue-200 rounded-full h-2">
-                <div className="bg-blue-500 h-2 rounded-full animate-pulse w-3/4"></div>
+              <div className="mt-4 bg-blue-200 rounded-full h-3">
+                <div className="bg-blue-500 h-3 rounded-full animate-pulse w-3/4"></div>
               </div>
             </div>
           </div>

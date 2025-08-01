@@ -23,12 +23,9 @@
 # 数据库连接 (NEON)
 DATABASE_URL="postgresql://neondb_owner:npg_8G3meXYdEyFR@ep-dark-meadow-afvel0ub-pooler.c-2.us-west-2.aws.neon.tech/neondb?channel_binding=require&sslmode=require"
 
-# Cloudflare R2 存储配置
-CLOUDFLARE_R2_ACCOUNT_ID="your_account_id"
-CLOUDFLARE_R2_ACCESS_KEY_ID="your_access_key"
-CLOUDFLARE_R2_SECRET_ACCESS_KEY="your_secret_key"
-CLOUDFLARE_R2_BUCKET_NAME="reunion-photos"
-CLOUDFLARE_R2_PUBLIC_URL="https://your_custom_domain_or_r2_public_url"
+# Firebase Storage 配置
+FIREBASE_SERVICE_ACCOUNT_KEY='{"type":"service_account","project_id":"your-project-id",...}'
+FIREBASE_STORAGE_BUCKET="your-project-id.appspot.com"
 
 # 应用配置
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
@@ -55,7 +52,7 @@ npm run dev
 - **前端框架**：Next.js 14 + TypeScript
 - **样式系统**：Tailwind CSS
 - **数据库**：NEON (PostgreSQL)
-- **文件存储**：Cloudflare R2
+- **文件存储**：Firebase Storage
 - **部署平台**：Vercel
 
 ## 🏗️ 项目结构
