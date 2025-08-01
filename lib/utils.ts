@@ -8,7 +8,24 @@ export function generateId(): string {
   return Math.random().toString(36).substring(2) + Date.now().toString(36);
 }
 
-// Device detection functions removed - no longer needed
+export function detectDeviceType(): 'ios' | 'android' | 'desktop' {
+  if (typeof window === 'undefined') return 'desktop';
+  
+  const userAgent = window.navigator.userAgent;
+  
+  if (/iPhone|iPad|iPod/i.test(userAgent)) {
+    return 'ios';
+  } else if (/Android/i.test(userAgent)) {
+    return 'android';
+  } else {
+    return 'desktop';
+  }
+}
+
+export function canAutoDownload(): boolean {
+  const deviceType = detectDeviceType();
+  return deviceType === 'android' || deviceType === 'desktop';
+}
 
 export function formatFileSize(bytes: number): string {
   if (bytes === 0) return '0 Bytes';
