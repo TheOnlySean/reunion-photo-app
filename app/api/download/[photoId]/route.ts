@@ -16,6 +16,17 @@ export async function GET(
     const isAndroid = /Android/i.test(userAgent);
     const isMobile = isIOS || isAndroid;
     
+    // 检查是否请求移动下载页面
+    const url = new URL(request.url);
+    const showPage = url.searchParams.get('page') === 'true';
+    
+    if (isMobile && showPage) {
+      // 重定向到移动下载页面
+      const baseUrl = `${url.protocol}//${url.host}`;
+      const downloadPageUrl = `${baseUrl}/mobile-download?photo=${encodeURIComponent(photoUrl)}`;
+      return NextResponse.redirect(downloadPageUrl);
+    }
+    
     try {
       let photoBuffer: ArrayBuffer;
       
@@ -48,10 +59,10 @@ export async function GET(
           headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
           console.log('Android设备 - 触发下载');
         } else {
-          // iOS设备：直接显示图片，用户可以长按保存
-          headers.set('Content-Disposition', 'inline');
-          headers.set('Cache-Control', 'public, max-age=3600');
-          console.log('iOS设备 - 显示图片');
+          // iOS设备：重定向到下载页面
+          const baseUrl = `${url.protocol}//${url.host}`;
+          const downloadPageUrl = `${baseUrl}/mobile-download?photo=${encodeURIComponent(photoUrl)}`;
+          return NextResponse.redirect(downloadPageUrl);
         }
       } else {
         // 桌面设备：触发下载
