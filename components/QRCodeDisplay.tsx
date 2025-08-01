@@ -32,8 +32,8 @@ export function QRCodeDisplay({
 
     try {
       await QRCode.toCanvas(canvasRef.current, shareUrl, {
-        width: 400, // 增大QR码分辨率
-        margin: 2,
+        width: 300, // 降低手机端分辨率，保持清晰度
+        margin: 1,
         color: {
           dark: '#1f2937',
           light: '#ffffff',
@@ -133,11 +133,11 @@ export function QRCodeDisplay({
                 <div className="inline-block p-2 md:p-4 lg:p-6 bg-white rounded-lg shadow-inner">
                   <canvas
                     ref={canvasRef}
-                    className={qrCodeGenerated ? 'block w-32 h-32 md:w-64 md:h-64 lg:w-80 lg:h-80' : 'hidden'}
+                    className={qrCodeGenerated ? 'block w-24 h-24 md:w-64 md:h-64 lg:w-80 lg:h-80' : 'hidden'}
                   />
                   {!qrCodeGenerated && (
-                    <div className="w-32 h-32 md:w-64 md:h-64 lg:w-80 lg:h-80 bg-gray-100 rounded-lg flex items-center justify-center">
-                      <div className="animate-spin rounded-full h-5 w-5 md:h-12 md:w-12 lg:h-16 lg:w-16 border-b-2 border-blue-500"></div>
+                    <div className="w-24 h-24 md:w-64 md:h-64 lg:w-80 lg:h-80 bg-gray-100 rounded-lg flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-4 w-4 md:h-12 md:w-12 lg:h-16 lg:w-16 border-b-2 border-blue-500"></div>
                     </div>
                   )}
                 </div>
