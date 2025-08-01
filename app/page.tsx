@@ -39,7 +39,7 @@ export default function Home() {
   }, []);
 
   const handleStartCamera = () => setCurrentStep('camera');
-  const handleStartOver = () => { window.location.reload(); };
+  const handleStartOver = () => { setCurrentStep("home"); setCapturedPhotos([]); setSelectedPhotoUrl(""); setShareUrl(""); setIsUploading(false); setError(""); };
 
   const handlePhotoCapture = (photos: { dataUrl: string; blob: Blob }[]) => {
     setCapturedPhotos(photos); setCurrentStep('preview');
