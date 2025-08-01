@@ -16,6 +16,29 @@ export function MobileDownloadPage({ photoUrl, sessionInfo }: MobileDownloadPage
   const [isDownloading, setIsDownloading] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
 
+  // 合影赞美话语数组
+  const praisePhrases = [
+    "みんなの笑顔が最高です",
+    "素敵な仲間との思い出",
+    "心温まる一瞬ですね",
+    "絆の深さが伝わります",
+    "かけがえのない時間",
+    "皆さんの絆が美しい",
+    "最高のチームワーク",
+    "幸せが溢れています",
+    "温かい雰囲気が素敵",
+    "みんなで作った奇跡",
+    "友情の輝きが見える",
+    "家族の愛が溢れてる"
+  ];
+
+  // ランダムに賞賛フレーズを選択
+  const getRandomPraise = () => {
+    return praisePhrases[Math.floor(Math.random() * praisePhrases.length)];
+  };
+
+  const [currentPraise] = useState(getRandomPraise());
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('ja-JP', {
       year: 'numeric',
@@ -107,11 +130,8 @@ export function MobileDownloadPage({ photoUrl, sessionInfo }: MobileDownloadPage
 
       <div className="container mx-auto px-6 py-8 relative z-10">
         
-        {/* Header - 日本APP风格 */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-2xl mb-4 shadow-lg">
-            <Camera className="w-8 h-8 text-white" />
-          </div>
+        {/* Header - 简化版 */}
+        <div className="text-center mb-6">
           <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-3">
             フォト保存
           </h1>
@@ -124,8 +144,8 @@ export function MobileDownloadPage({ photoUrl, sessionInfo }: MobileDownloadPage
           </div>
         </div>
 
-        {/* Photo Display - 日本APP卡片风格 */}
-        <div className="max-w-sm mx-auto mb-8">
+        {/* Photo Display - 紧凑版 */}
+        <div className="max-w-sm mx-auto mb-6">
           <div className="bg-white rounded-3xl p-2 shadow-2xl shadow-pink-200/50 hover:shadow-3xl hover:shadow-pink-300/60 transition-all duration-500 hover:-translate-y-1">
             <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gray-50 relative group">
               <img
@@ -140,25 +160,25 @@ export function MobileDownloadPage({ photoUrl, sessionInfo }: MobileDownloadPage
               </div>
             </div>
             
-            {/* 照片底部装饰条 */}
+            {/* 照片底部装饰条 - 随机赞美语 */}
             <div className="flex items-center justify-between px-4 py-3">
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse"></div>
-                <span className="text-sm text-gray-600 font-medium">あなたの素敵な瞬間</span>
+                <span className="text-sm text-gray-600 font-medium">{currentPraise}</span>
               </div>
               <div className="text-2xl">💕</div>
             </div>
           </div>
         </div>
 
-        {/* Action Buttons - 日本APP风格按钮 */}
-        <div className="max-w-sm mx-auto space-y-4">
+        {/* Action Buttons - 紧凑版 */}
+        <div className="max-w-sm mx-auto space-y-3">
           
           {/* Download Button - 主按钮 */}
           <button
             onClick={handleDownload}
             disabled={isDownloading}
-            className="group w-full flex items-center justify-center space-x-3 px-8 py-5 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-2xl font-bold text-lg transition-all duration-300 shadow-xl shadow-pink-300/50 hover:shadow-2xl hover:shadow-pink-400/60 hover:-translate-y-1 disabled:hover:translate-y-0 disabled:hover:shadow-xl"
+            className="group w-full flex items-center justify-center space-x-3 px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-2xl font-bold text-lg transition-all duration-300 shadow-xl shadow-pink-300/50 hover:shadow-2xl hover:shadow-pink-400/60 hover:-translate-y-1 disabled:hover:translate-y-0 disabled:hover:shadow-xl"
           >
             {isDownloading ? (
               <>
@@ -178,7 +198,7 @@ export function MobileDownloadPage({ photoUrl, sessionInfo }: MobileDownloadPage
           {/* Line Share Button - 次要按钮 */}
           <button
             onClick={handleLineShare}
-            className="group w-full flex items-center justify-center space-x-3 px-8 py-4 bg-white hover:bg-gray-50 text-gray-800 border-2 border-green-200 hover:border-green-300 rounded-2xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+            className="group w-full flex items-center justify-center space-x-3 px-8 py-3 bg-white hover:bg-gray-50 text-gray-800 border-2 border-green-200 hover:border-green-300 rounded-2xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
           >
             <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
               <Share className="w-5 h-5 text-white" />
@@ -190,7 +210,7 @@ export function MobileDownloadPage({ photoUrl, sessionInfo }: MobileDownloadPage
 
         {/* Instructions for iOS users - 可爱的日本风格说明 */}
         {showInstructions && (
-          <div className="max-w-sm mx-auto mt-8 animate-fadeIn">
+          <div className="max-w-sm mx-auto mt-6 animate-fadeIn">
             <div className="bg-white rounded-2xl p-6 shadow-xl shadow-blue-200/30 border border-blue-100">
               <div className="text-center mb-4">
                 <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-2xl mb-3">
@@ -238,7 +258,7 @@ export function MobileDownloadPage({ photoUrl, sessionInfo }: MobileDownloadPage
         )}
 
         {/* Footer - 日本风格感谢信息 */}
-        <div className="mt-12 text-center">
+        <div className="mt-8 text-center">
           <div className="max-w-xs mx-auto bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
             <div className="flex items-center justify-center space-x-2 mb-3">
               <div className="text-2xl">🌸</div>
