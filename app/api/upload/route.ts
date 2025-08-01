@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { put } from '@vercel/blob';
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,17 +13,39 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 临时模拟上传成功，返回假的URLs
-    const mockPhotos = [
-      'https://via.placeholder.com/600x400/ff6b6b/ffffff?text=Photo+1',
-      'https://via.placeholder.com/600x400/4ecdc4/ffffff?text=Photo+2', 
-      'https://via.placeholder.com/600x400/45b7d1/ffffff?text=Photo+3'
-    ];
+    const uploadedPhotos: string[] = [];
+
+    // 上传每张照片到Vercel Blob
+    for (let i = 0; i < 3; i++) {
+      const photoFile = formData.get(`photo${i}`) as File;
+      if (photoFile) {
+        try {
+          const fileName = `sessions/${sessionId}/photo-${i}-${Date.now()}.jpg`;
+          const blob = await put(fileName, photoFile, {
+            access: 'public',
+            contentType: 'image/jpeg',
+            cacheControlMaxAge: 31536000, // 1年缓存
+          });
+          
+          uploadedPhotos.push(blob.url);
+        } catch (uploadError) {
+          console.error(`Error uploading photo ${i}:`, uploadError);
+          throw new Error(`Failed to upload photo ${i}`);
+        }
+      }
+    }
+
+    if (uploadedPhotos.length === 0) {
+      return NextResponse.json(
+        { success: false, error: '写真が見つかりません' },
+        { status: 400 }
+      );
+    }
 
     return NextResponse.json({
       success: true,
-      photos: mockPhotos,
-      message: 'テスト: 写真をアップロードしました'
+      photos: uploadedPhotos,
+      message: `${uploadedPhotos.length}枚の写真をアップロードしました`
     });
   } catch (error) {
     console.error('Error uploading photos:', error);

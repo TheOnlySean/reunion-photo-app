@@ -11,14 +11,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 直接使用Firebase照片URL作为分享链接，扫码即可下载
-    const shareUrl = selectedPhotoUrl;
+    // 创建下载链接，指向我们的下载API端点
+    const encodedPhotoUrl = encodeURIComponent(selectedPhotoUrl);
+    
+    // 获取正确的base URL
+    const protocol = request.headers.get('x-forwarded-proto') || 'http';
+    const host = request.headers.get('host') || 'localhost:3000';
+    const baseUrl = `${protocol}://${host}`;
+    
+    const shareUrl = `${baseUrl}/api/download/${encodedPhotoUrl}`;
 
     return NextResponse.json({
       success: true,
       shareUrl,
       selectedPhotoUrl,
-      message: 'QRコードが生成されました - 直接Firebase URLを使用'
+      message: 'QRコードが生成されました - Vercel Blob + 直接下载'
     });
   } catch (error) {
     console.error('Error selecting photo:', error);
