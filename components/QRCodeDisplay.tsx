@@ -126,18 +126,18 @@ export function QRCodeDisplay({
 
           {/* QR Code Section */}
           <div className="order-1 lg:order-2">
-            <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6 lg:p-8 text-center">
+            <div className="bg-white rounded-2xl shadow-xl p-3 md:p-6 lg:p-8 text-center">
               
               {/* QR Code - 三端响应式尺寸 */}
               <div className="mb-6 md:mb-8">
-                <div className="inline-block p-2 md:p-4 lg:p-6 bg-white rounded-xl shadow-inner">
+                <div className="inline-block p-2 md:p-4 lg:p-6 bg-white rounded-lg shadow-inner">
                   <canvas
                     ref={canvasRef}
-                    className={qrCodeGenerated ? 'block w-40 h-40 md:w-64 md:h-64 lg:w-80 lg:h-80' : 'hidden'}
+                    className={qrCodeGenerated ? 'block w-32 h-32 md:w-64 md:h-64 lg:w-80 lg:h-80' : 'hidden'}
                   />
                   {!qrCodeGenerated && (
-                    <div className="w-40 h-40 md:w-64 md:h-64 lg:w-80 lg:h-80 bg-gray-100 rounded-lg flex items-center justify-center">
-                      <div className="animate-spin rounded-full h-6 w-6 md:h-12 md:w-12 lg:h-16 lg:w-16 border-b-2 border-blue-500"></div>
+                    <div className="w-32 h-32 md:w-64 md:h-64 lg:w-80 lg:h-80 bg-gray-100 rounded-lg flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-5 w-5 md:h-12 md:w-12 lg:h-16 lg:w-16 border-b-2 border-blue-500"></div>
                     </div>
                   )}
                 </div>
