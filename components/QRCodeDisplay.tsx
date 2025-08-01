@@ -126,7 +126,7 @@ export function QRCodeDisplay({
 
           {/* QR Code Section */}
           <div className="order-1 lg:order-2">
-            <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 text-center">
+            <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6 lg:p-8 text-center">
               
               {/* QR Code - 放大尺寸 */}
               <div className="mb-6 md:mb-8">
