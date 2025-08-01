@@ -208,4 +208,4 @@ export function Camera({ onPhotoCapture, onError }: CameraProps) {
       )}
     </div>
   );
-}
+}// 跳过虚拟摄像头功能已添加
