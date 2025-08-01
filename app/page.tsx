@@ -185,7 +185,7 @@ export default function Home() {
           <div className="absolute top-4 right-4 z-30">
             <button
               onClick={handleLogout}
-              className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2"
+              className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2"
             >
               <span>🔓</span>
               <span>ログアウト</span>
@@ -196,9 +196,9 @@ export default function Home() {
         {/* Device Info */}
         {currentStep === 'home' && deviceName && (
           <div className="absolute top-4 left-4 z-30">
-            <div className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-lg text-sm font-medium">
+            <div className="bg-white/20 backdrop-blur-sm text-white px-3 py-2 rounded-lg text-sm font-medium max-w-[calc(100vw-8rem)]">
               <span className="mr-2">📱</span>
-              {deviceName}
+              <span className="truncate">{deviceName}</span>
             </div>
           </div>
         )}
@@ -346,6 +346,9 @@ export default function Home() {
 
         {/* 手机端竖版布局 - 优化显示完整 */}
         <div className="relative z-20 min-h-screen flex flex-col items-center justify-between md:hidden pt-safe-top pb-safe-bottom px-4 py-6">
+          {/* 顶部间距 - 为设备信息预留空间 */}
+          <div className="h-16 flex-shrink-0"></div>
+          
           {/* 顶部内容区 */}
           <div className="flex-shrink-0">
             <div className="text-center mb-6 animate-fade-in">
