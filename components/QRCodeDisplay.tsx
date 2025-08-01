@@ -119,7 +119,7 @@ export function QRCodeDisplay({
                 className="flex items-center space-x-2 px-6 md:px-8 py-3 md:py-4 bg-purple-500 hover:bg-purple-600 text-white rounded-lg font-semibold text-base md:text-lg transition-colors duration-200"
               >
                 <RotateCcw className="w-5 h-5 md:w-6 md:h-6" />
-                <span>新しい写真を撮影</span>
+                <span>新しいフォトを撮影</span>
               </button>
             </div>
           </div>
@@ -145,13 +145,13 @@ export function QRCodeDisplay({
 
               {/* 简化说明 */}
               <div className="mb-6 md:mb-8">
-                <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-6">
-                  📱 スキャンして写真を保存
-                </h3>
-                <p className="text-gray-600 text-base md:text-lg">
-                  QRコードをスキャンすると<br/>
-                  写真ダウンロード画面が開きます
-                </p>
+                              <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-6">
+                📱 スキャンでフォト保存
+              </h3>
+              <p className="text-gray-600 text-base md:text-lg">
+                QRコードをスキャンすると<br/>
+                フォトダウンロード画面が開きます
+              </p>
               </div>
             </div>
           </div>

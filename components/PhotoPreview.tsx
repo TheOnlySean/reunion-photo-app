@@ -27,22 +27,22 @@ export function PhotoPreview({ photos, onPhotoSelect, onRetake, isUploading = fa
   };
 
   return (
-    <div className="w-full h-full bg-gray-100 p-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="w-full h-full bg-gray-100 p-4 md:p-6">
+      <div className="max-w-5xl mx-auto h-full flex flex-col">
         
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-2">
-            お気に入りの写真を選択 📸
+        {/* Header - iPad优化，更紧凑 */}
+        <div className="text-center mb-4 md:mb-6 flex-shrink-0">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+            ベストショットを選択 📸
           </h2>
-          <p className="text-gray-600 text-lg">
-            撮影した3枚の写真から<br/>
-            シェアしたい1枚をお選びください
+          <p className="text-gray-600 text-base md:text-lg">
+            撮影した3枚から気に入った1枚をタップしてください
           </p>
         </div>
 
-        {/* Photo Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        {/* Photo Grid - iPad优化布局 */}
+        <div className="flex-1 flex items-center justify-center mb-4 md:mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full max-w-4xl">
           {photos.map((photo, index) => (
             <div
               key={index}
@@ -55,8 +55,8 @@ export function PhotoPreview({ photos, onPhotoSelect, onRetake, isUploading = fa
               )}
               onClick={() => handlePhotoSelect(index)}
             >
-              {/* Photo */}
-              <div className="aspect-[4/3] rounded-lg overflow-hidden bg-gray-200">
+              {/* Photo - iPad優化サイズ */}
+              <div className="aspect-[4/3] rounded-lg overflow-hidden bg-gray-200 md:max-h-64">
                 <img
                   src={photo.dataUrl}
                   alt={`写真 ${index + 1}`}
@@ -85,19 +85,20 @@ export function PhotoPreview({ photos, onPhotoSelect, onRetake, isUploading = fa
               )} />
             </div>
           ))}
+          </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        {/* Action Buttons - iPad优化，固定在底部 */}
+        <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center flex-shrink-0">
           
           {/* Retake Button */}
           <button
             onClick={onRetake}
             disabled={isUploading}
-            className="flex items-center space-x-2 px-8 py-4 bg-gray-500 hover:bg-gray-600 disabled:bg-gray-400 text-white rounded-lg font-semibold text-lg transition-colors duration-200"
+            className="flex items-center space-x-2 px-6 md:px-8 py-3 md:py-4 bg-gray-500 hover:bg-gray-600 disabled:bg-gray-400 text-white rounded-lg font-semibold text-base md:text-lg transition-colors duration-200"
           >
-            <RotateCcw className="w-6 h-6" />
-            <span>撮り直し</span>
+            <RotateCcw className="w-5 h-5 md:w-6 md:h-6" />
+            <span>撮り直す</span>
           </button>
 
           {/* Confirm Button */}
@@ -105,7 +106,7 @@ export function PhotoPreview({ photos, onPhotoSelect, onRetake, isUploading = fa
             onClick={handleConfirmSelection}
             disabled={selectedIndex === null || isUploading}
             className={cn(
-              "flex items-center space-x-2 px-10 py-4 rounded-lg font-semibold text-lg transition-all duration-200",
+              "flex items-center space-x-2 px-8 md:px-10 py-3 md:py-4 rounded-lg font-semibold text-base md:text-lg transition-all duration-200",
               selectedIndex !== null && !isUploading
                 ? "bg-blue-500 hover:bg-blue-600 text-white shadow-lg hover:shadow-xl"
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
@@ -113,13 +114,13 @@ export function PhotoPreview({ photos, onPhotoSelect, onRetake, isUploading = fa
           >
             {isUploading ? (
               <>
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                <div className="animate-spin rounded-full h-5 w-5 md:h-6 md:w-6 border-b-2 border-white"></div>
                 <span>アップロード中...</span>
               </>
             ) : (
               <>
-                <Check className="w-6 h-6" />
-                <span>この写真に決定</span>
+                <Check className="w-5 h-5 md:w-6 md:h-6" />
+                <span>この写真で決定</span>
               </>
             )}
           </button>
